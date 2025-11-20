@@ -1,34 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <meta charset="UTF-8">
-    <title>Catálogo de Libros (Flask - CRUD)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Libros (Flask CRUD)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Catálogo de Libros</h1>
-    
-    <a href="{{ url_for('agregar') }}">Añadir Nuevo Libro</a>
-    <hr>
-    
-    {% for libro in libros %}
-        <div>
-            <strong>Título/Nombre:</strong> {{ libro.nombre }} <br> 
-            <strong>Autor:</strong> {{ libro.autor }} <br>
-            <strong>Género:</strong> {{ libro.genero }} <br>
-            <strong>Stock:</strong> {{ libro.stock }} <br>
-            <strong>ISBN:</strong> {{ libro.isbn }} <br>
-            <strong>Año de Publicación:</strong> {{ libro.anio_publicacion }} <br> 
-            
-            <a href="{{ url_for('editar', id=libro._id) }}">Editar</a> |
-            
-            <form action="{{ url_for('eliminar', id=libro._id) }}" method="POST" style="display:inline;">
-                <button type="submit" onclick="return confirm('¿Seguro que quieres eliminar {{ libro.nombre }}?');">Eliminar</button>
-            </form>
+    <div class="header">
+        <a href="{{ url_for('index') }}" class="logo">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9v-2h2v2zm0-4H9V7h2v6zm4 0h-2V7h2v6zm0 4h-2v-2h2v2z"/>
+            </svg>
+            Book List
+        </a>
+        <div class="user-profile">
+            <img src="https://via.placeholder.com/35/007bff/ffffff?text=U" alt="User Avatar">
+            <span>Usuario</span>
         </div>
-        <hr>
-    {% else %}
-        <p>¡No hay libros registrados aún!</p>
-    {% endfor %}
+    </div>
+
+    <div class="container">
+        <h1>Catálogo de Libros</h1>
+
+        <div class="toolbar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Buscar libro...">
+            </div>
+            <a href="{{ url_for('agregar') }}" class="btn-add-new">
+                ➕ Add New
+            </a>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th></th> <th>Nombre (Título)</th>
+                    <th>Autor</th>
+                    <th>Género</th>
+                    <th>Stock</th>
+                    <th>ISBN</th>
+                    <th>Año Publicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for libro in libros %}
+                <tr>
+                    <td></td> <td data-label="Nombre (Título)" class="cell-name">
+                        <img src="https://via.placeholder.com/40/f4c2c2/000000?text=B" alt="Book Icon" class="avatar">
+                        {{ libro.nombre }}
+                    </td>
+                    <td data-label="Autor">{{ libro.autor }}</td>
+                    <td data-label="Género">{{ libro.genero }}</td>
+                    <td data-label="Stock">{{ libro.stock }}</td>
+                    <td data-label="ISBN">{{ libro.isbn }}</td>
+                    <td data-label="Año Publicación">{{ libro.anio_publicacion }}</td>
+                    <td data-label="Acciones">
+                        <div class="action-buttons">
+                            <a href="{{ url_for('editar', id=libro._id) }}" class="edit-btn"><span>Editar</span></a>
+                            <form action="{{ url_for('eliminar', id=libro._id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="delete-btn" onclick="return confirm('¿Eliminar {{ libro.nombre }}?');"><span>Eliminar</span></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 30px;">¡No hay libros registrados aún!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

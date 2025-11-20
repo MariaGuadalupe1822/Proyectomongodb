@@ -1,0 +1,251 @@
+/* static/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9; /* Fondo muy claro */
+    color: #495057;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #6c757d;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header .logo svg {
+    height: 28px;
+    width: 28px;
+    fill: #007bff; /* Color del icono del logo */
+}
+
+.header .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6c757d;
+}
+
+.header .user-profile img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+h1 {
+    font-size: 28px;
+    color: #343a40;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 20px;
+}
+
+.search-box {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+}
+.search-box input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #495057;
+    transition: border-color 0.3s;
+}
+.search-box input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.search-box .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.btn-add-new {
+    background-color: #28a745; /* Verde para "Add New" */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+.btn-add-new:hover {
+    background-color: #218838;
+}
+
+/* Estilo de la tabla */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.data-table thead th {
+    background-color: #f8f9fa;
+    text-align: left;
+    padding: 15px 20px;
+    color: #6c757d;
+    font-weight: 600;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 14px;
+}
+
+.data-table tbody td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+.data-table tbody tr:hover {
+    background-color: #fcfdfe; /* Fondo ligeramente más oscuro al pasar el mouse */
+}
+
+/* Avatares */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cell-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+/* Botones de acción dentro de la tabla */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons a,
+.action-buttons button {
+    background-color: transparent;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px; /* Tamaño del icono */
+    color: #6c757d;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-buttons a:hover {
+    color: #007bff; /* Azul al pasar el mouse */
+    background-color: #e2f0ff;
+}
+.action-buttons button:hover {
+    color: #dc3545; /* Rojo al pasar el mouse */
+    background-color: #ffeef2;
+}
+
+/* Iconos para los botones de acción (Unicode para simplicidad) */
+.action-buttons a.edit-btn::before { content: '✏️'; }
+.action-buttons button.delete-btn::before { content: '🗑️'; }
+
+/* Ocultar texto en botones si solo se quiere icono */
+.action-buttons a span,
+.action-buttons button span {
+    display: none; /* Oculta el texto por defecto, dejando solo el icono */
+}
+
+/* Si se quiere texto, cambiar el display de span y ajustar el gap */
+/* .action-buttons a span, .action-buttons button span { display: inline-block; } */
+/* .action-buttons a, .action-buttons button { gap: 5px; } */
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box {
+        max-width: 100%;
+    }
+    .btn-add-new {
+        width: 100%;
+        justify-content: center;
+    }
+    .data-table thead {
+        display: none; /* Oculta el encabezado en pantallas pequeñas */
+    }
+    .data-table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .data-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        border-bottom: none;
+    }
+    .data-table tbody td::before {
+        content: attr(data-label); /* Usa el atributo data-label para mostrar el encabezado */
+        font-weight: 600;
+        color: #6c757d;
+        min-width: 100px;
+    }
+    .data-table tbody td:last-child {
+        border-bottom: 1px solid #e9ecef; /* Solo el último td tiene un borde */
+    }
+    .cell-name, .action-buttons {
+        width: auto;
+    }
+}
