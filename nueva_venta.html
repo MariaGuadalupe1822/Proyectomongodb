@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Venta - Biblioteca Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+
+        .header .user-profile:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-menu {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-menu a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--primary);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            color: var(--dark);
+            transition: var(--transition);
+            background: var(--light);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background: white;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .sale-item {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .item-header h3 {
+            color: var(--dark);
+        }
+
+        .remove-item {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-item {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .total-section {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        .total-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--gray);
+            border: 2px solid var(--gray-light);
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-error {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .form-actions div {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn-secondary, .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('dashboard') }}" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            Biblioteca Digital
+        </a>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="User Avatar">
+            <span>{{ session.usuario_nombre }}</span>
+        </div>
+    </div>
+
+    <div class="nav-menu">
+        <a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="{{ url_for('index') }}"><i class="fas fa-book"></i> Libros</a>
+        <a href="{{ url_for('listar_clientes') }}"><i class="fas fa-users"></i> Clientes</a>
+        <a href="{{ url_for('listar_ventas') }}" class="active"><i class="fas fa-shopping-cart"></i> Ventas</a>
+        <a href="{{ url_for('logout') }}" style="float: right; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            <i class="fas fa-cart-plus"></i>
+            Nueva Venta
+        </h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('nueva_venta') }}" id="saleForm">
+                <div class="form-group">
+                    <label for="cliente_id"><i class="fas fa-user"></i> Cliente</label>
+                    <select id="cliente_id" name="cliente_id" required>
+                        <option value="">Selecciona un cliente</option>
+                        {% for cliente in clientes %}
+                        <option value="{{ cliente._id }}">{{ cliente.nombre }} - {{ cliente.email }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <h3 style="margin-bottom: 20px; color: var(--dark);">
+                    <i class="fas fa-book"></i>
+                    Productos de la Venta
+                </h3>
+
+                <div id="items-container">
+                    <div class="sale-item" id="item-0">
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 2;">
+                                <label>Libro</label>
+                                <select name="libro_id[]" required>
+                                    <option value="">Selecciona un libro</option>
+                                    {% for libro in libros %}
+                                    <option value="{{ libro._id }}" data-precio="{{ libro.precio }}" data-stock="{{ libro.stock }}">
+                                        {{ libro.nombre }} - ${{ "%.2f"|format(libro.precio) }} (Stock: {{ libro.stock }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cantidad</label>
+                                <input type="number" name="cantidad[]" min="1" value="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Precio Unitario</label>
+                                <input type="text" name="precio_unitario[]" readonly style="background: #e9ecef;">
+                            </div>
+                            <div class="form-group">
+                                <label>Subtotal</label>
+                                <input type="text" name="subtotal[]" readonly style="background: #e9ecef; font-weight: 600;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="add-item" id="add-item-btn">
+                    <i class="fas fa-plus"></i>
+                    Agregar Otro Producto
+                </button>
+
+                <div class="total-section">
+                    <h3>Total de la Venta: <span class="total-amount" id="total-amount">$0.00</span></h3>
+                </div>
+
+                <div class="form-actions">
+                    <div>
+                        <a href="{{ url_for('listar_ventas') }}" class="btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Cancelar
+                        </a>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-check"></i>
+                        Confirmar Venta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let itemCount = 1;
+
+        document.getElementById('add-item-btn').addEventListener('click', function() {
+            const itemsContainer = document.getElementById('items-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'sale-item';
+            newItem.id = 'item-' + itemCount;
+            newItem.innerHTML = `
+                <div class="item-header">
+                    <h3>Producto ${itemCount + 1}</h3>
+                    <button type="button" class="remove-item" onclick="removeItem(${itemCount})">
+                        <i class="fas fa-times"></i> Eliminar
+                    </button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Libro</label>
+                        <select name="libro_id[]" required>
+                            <option value="">Selecciona un libro</option>
+                            {% for libro in libros %}
+                            <option value="{{ libro._id }}" data-precio="{{ libro.precio }}" data-stock="{{ libro.stock }}">
+                                {{ libro.nombre }} - ${{ "%.2f"|format(libro.precio) }} (Stock: {{ libro.stock }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" name="cantidad[]" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Unitario</label>
+                        <input type="text" name="precio_unitario[]" readonly style="background: #e9ecef;">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtotal</label>
+                        <input type="text" name="subtotal[]" readonly style="background: #e9ecef; font-weight: 600;">
+                    </div>
+                </div>
+            `;
+            itemsContainer.appendChild(newItem);
+            
+            // Agregar event listeners al nuevo item
+            const select = newItem.querySelector('select[name="libro_id[]"]');
+            const cantidad = newItem.querySelector('input[name="cantidad[]"]');
+            const precio = newItem.querySelector('input[name="precio_unitario[]"]');
+            const subtotal = newItem.querySelector('input[name="subtotal[]"]');
+            
+            select.addEventListener('change', updatePrecio);
+            cantidad.addEventListener('input', updateSubtotal);
+            
+            itemCount++;
+        });
+
+        function removeItem(id) {
+            const item = document.getElementById('item-' + id);
+            if (item) {
+                item.remove();
+                calculateTotal();
+            }
+        }
+
+        function updatePrecio(event) {
+            const select = event.target;
+            const precio = select.options[select.selectedIndex]?.getAttribute('data-precio') || '0';
+            const row = select.closest('.form-row');
+            const precioInput = row.querySelector('input[name="precio_unitario[]"]');
+            precioInput.value = '$' + parseFloat(precio).toFixed(2);
+            updateSubtotalForRow(row);
+        }
+
+        function updateSubtotal(event) {
+            const input = event.target;
+            const row = input.closest('.form-row');
+            updateSubtotalForRow(row);
+        }
+
+        function updateSubtotalForRow(row) {
+            const select = row.querySelector('select[name="libro_id[]"]');
+            const cantidadInput = row.querySelector('input[name="cantidad[]"]');
+            const subtotalInput = row.querySelector('input[name="subtotal[]"]');
+            
+            const precio = select.options[select.selectedIndex]?.getAttribute('data-precio') || '0';
+            const cantidad = parseInt(cantidadInput.value) || 0;
+            const subtotal = parseFloat(precio) * cantidad;
+            
+            subtotalInput.value = '$' + subtotal.toFixed(2);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            const subtotalInputs = document.querySelectorAll('input[name="subtotal[]"]');
+            
+            subtotalInputs.forEach(input => {
+                const value = input.value.replace('$', '');
+                total += parseFloat(value) || 0;
+            });
+            
+            document.getElementById('total-amount').textContent = '$' + total.toFixed(2);
+        }
+
+        // Inicializar event listeners para el primer item
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstSelect = document.querySelector('select[name="libro_id[]"]');
+            const firstCantidad = document.querySelector('input[name="cantidad[]"]');
+            
+            if (firstSelect) {
+                firstSelect.addEventListener('change', updatePrecio);
+                firstCantidad.addEventListener('input', updateSubtotal);
+            }
+        });
+    </script>
+</body>
+</html>

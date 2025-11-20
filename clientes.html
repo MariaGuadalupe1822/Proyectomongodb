@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Digital - Catálogo de Libros</title>
+    <title>Clientes - Biblioteca Digital</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -91,6 +90,28 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
+        .nav-menu {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-menu a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
         .container {
             width: 95%;
             max-width: 1400px;
@@ -102,13 +123,6 @@
             position: relative;
             overflow: hidden;
         }
-        <div class="nav-menu">
-    <a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-bar"></i> Dashboard</a>
-    <a href="{{ url_for('index') }}" class="active"><i class="fas fa-book"></i> Libros</a>
-    <a href="{{ url_for('listar_clientes') }}"><i class="fas fa-users"></i> Clientes</a>
-    <a href="{{ url_for('listar_ventas') }}"><i class="fas fa-shopping-cart"></i> Ventas</a>
-    <a href="{{ url_for('logout') }}" style="float: right; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-</div>
 
         .container::before {
             content: '';
@@ -237,7 +251,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        /* Avatares */
+        /* Avatar de cliente */
         .avatar {
             width: 44px;
             height: 44px;
@@ -246,6 +260,12 @@
             margin-right: 10px;
             vertical-align: middle;
             border: 2px solid var(--gray-light);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
         }
 
         .cell-name {
@@ -255,38 +275,26 @@
             font-weight: 500;
         }
 
-        /* Badges para género */
-        .genre-badge {
+        /* Badge para estado */
+        .status-badge {
             display: inline-block;
             padding: 6px 12px;
             border-radius: 50px;
             font-size: 13px;
             font-weight: 500;
-            background: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
         }
 
-        /* Stock indicator */
-        .stock-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 500;
+        .status-active {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
         }
 
-        .stock-low {
-            color: var(--danger);
+        .status-inactive {
+            background: rgba(108, 117, 125, 0.1);
+            color: var(--gray);
         }
 
-        .stock-medium {
-            color: var(--warning);
-        }
-
-        .stock-high {
-            color: #2ecc71;
-        }
-
-        /* Botones de acción dentro de la tabla */
+        /* Botones de acción */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -331,7 +339,27 @@
             transform: scale(1.05);
         }
 
-        /* Mensaje cuando no hay libros */
+        /* Mensajes flash */
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .alert-error {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Estado vacío */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -350,7 +378,7 @@
             color: var(--dark);
         }
 
-        /* Responsive adjustments */
+        /* Responsive */
         @media (max-width: 768px) {
             .toolbar {
                 flex-direction: column;
@@ -408,24 +436,44 @@
         </a>
         <div class="user-profile">
             <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="User Avatar">
-            <span>Administrador</span>
+            <span>{{ session.usuario_nombre }}</span>
         </div>
+    </div>
+
+    <div class="nav-menu">
+        <a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="{{ url_for('index') }}"><i class="fas fa-book"></i> Libros</a>
+        <a href="{{ url_for('listar_clientes') }}" class="active"><i class="fas fa-users"></i> Clientes</a>
+        <a href="{{ url_for('listar_ventas') }}"><i class="fas fa-shopping-cart"></i> Ventas</a>
+        <a href="{{ url_for('logout') }}" style="float: right; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
     </div>
 
     <div class="container">
         <h1>
-            <i class="fas fa-book"></i>
-            Catálogo de Libros
+            <i class="fas fa-users"></i>
+            Gestión de Clientes
         </h1>
+
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
         <div class="toolbar">
             <div class="search-box">
                 <span class="search-icon"><i class="fas fa-search"></i></span>
-                <input type="text" placeholder="Buscar por título, autor o género...">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, email o teléfono...">
             </div>
-            <a href="{{ url_for('agregar') }}" class="btn-add-new">
+            <a href="{{ url_for('agregar_cliente') }}" class="btn-add-new">
                 <i class="fas fa-plus-circle"></i>
-                Agregar Nuevo Libro
+                Agregar Nuevo Cliente
             </a>
         </div>
 
@@ -433,45 +481,63 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Portada</th>
-                        <th>Información del Libro</th>
-                        <th>Género</th>
-                        <th>Stock</th>
-                        <th>ISBN</th>
-                        <th>Año</th>
+                        <th>Cliente</th>
+                        <th>Información de Contacto</th>
+                        <th>Dirección</th>
+                        <th>Fecha Registro</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for libro in libros %}
+                    {% for cliente in clientes %}
                     <tr>
-                        <td data-label="Portada">
-                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Book Cover" class="avatar">
+                        <td data-label="Cliente">
+                            <div class="cell-name">
+                                <div class="avatar">
+                                    {{ cliente.nombre[0] }}{{ cliente.nombre.split(' ')[1][0] if cliente.nombre.split(' ')|length > 1 else cliente.nombre[1] }}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--dark);">{{ cliente.nombre }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <td data-label="Información del Libro" class="cell-name">
+                        <td data-label="Información de Contacto">
                             <div>
-                                <div style="font-weight: 600; color: var(--dark);">{{ libro.nombre }}</div>
-                                <div style="font-size: 14px; color: var(--gray);">{{ libro.autor }}</div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">
+                                    <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i>
+                                    {{ cliente.email }}
+                                </div>
+                                <div style="font-size: 14px; color: var(--gray);">
+                                    <i class="fas fa-phone" style="margin-right: 8px;"></i>
+                                    {{ cliente.telefono }}
+                                </div>
                             </div>
                         </td>
-                        <td data-label="Género">
-                            <span class="genre-badge">{{ libro.genero }}</span>
-                        </td>
-                        <td data-label="Stock">
-                            <div class="stock-indicator {% if libro.stock < 5 %}stock-low{% elif libro.stock < 15 %}stock-medium{% else %}stock-high{% endif %}">
-                                <i class="fas fa-box"></i>
-                                {{ libro.stock }}
+                        <td data-label="Dirección">
+                            <div style="font-size: 14px;">
+                                <div style="font-weight: 500;">{{ cliente.direccion.calle }}</div>
+                                <div style="color: var(--gray);">
+                                    {{ cliente.direccion.ciudad }}, {{ cliente.direccion.codigo_postal }}
+                                </div>
                             </div>
                         </td>
-                        <td data-label="ISBN">{{ libro.isbn }}</td>
-                        <td data-label="Año">{{ libro.anio_publicacion }}</td>
+                        <td data-label="Fecha Registro">
+                            {{ cliente.fecha_registro.strftime('%d/%m/%Y') }}
+                        </td>
+                        <td data-label="Estado">
+                            <span class="status-badge {% if cliente.activo %}status-active{% else %}status-inactive{% endif %}">
+                                <i class="fas fa-{% if cliente.activo %}check-circle{% else %}times-circle{% endif %}"></i>
+                                {% if cliente.activo %}Activo{% else %}Inactivo{% endif %}
+                            </span>
+                        </td>
                         <td data-label="Acciones">
                             <div class="action-buttons">
-                                <a href="{{ url_for('editar', id=libro._id) }}" class="edit-btn" title="Editar">
+                                <a href="{{ url_for('editar_cliente', id=cliente._id) }}" class="edit-btn" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ url_for('eliminar', id=libro._id) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="delete-btn" onclick="return confirm('¿Estás seguro de que deseas eliminar {{ libro.nombre }}?');" title="Eliminar">
+                                <form action="{{ url_for('eliminar_cliente', id=cliente._id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="delete-btn" onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ cliente.nombre }}?');" title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -480,14 +546,14 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="7">
+                        <td colspan="6">
                             <div class="empty-state">
-                                <i class="fas fa-book"></i>
-                                <h3>No hay libros en el catálogo</h3>
-                                <p>Comienza agregando el primer libro a tu biblioteca</p>
-                                <a href="{{ url_for('agregar') }}" class="btn-add-new" style="margin-top: 20px;">
+                                <i class="fas fa-users"></i>
+                                <h3>No hay clientes registrados</h3>
+                                <p>Comienza agregando el primer cliente a tu sistema</p>
+                                <a href="{{ url_for('agregar_cliente') }}" class="btn-add-new" style="margin-top: 20px;">
                                     <i class="fas fa-plus-circle"></i>
-                                    Agregar Primer Libro
+                                    Agregar Primer Cliente
                                 </a>
                             </div>
                         </td>
@@ -500,7 +566,7 @@
 
     <script>
         // Función para búsqueda en tiempo real
-        document.querySelector('.search-box input').addEventListener('input', function() {
+        document.getElementById('searchInput').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             const rows = document.querySelectorAll('.data-table tbody tr');
             
