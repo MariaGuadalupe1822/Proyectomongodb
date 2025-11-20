@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Libro</title>
-</head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> </head>
 <body>
-    <h1>Editar Libro: {{ libro.titulo }}</h1>
+    <h1>Editar Libro: {{ libro.nombre }}</h1>
 
     <form method="POST" action="{{ url_for('actualizar', id=libro._id) }}">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" value="{{ libro.titulo }}" required><br><br>
+        <label for="nombre">Nombre (Título):</label>
+        <input type="text" id="nombre" name="nombre" value="{{ libro.nombre }}" required><br><br>
 
         <label for="autor">Autor:</label>
         <input type="text" id="autor" name="autor" value="{{ libro.autor }}" required><br><br>
-
+        
+        <label for="genero">Género:</label>
+        <input type="text" id="genero" name="genero" value="{{ libro.genero }}" required><br><br>
+        
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" value="{{ libro.stock }}" required><br><br>
         <label for="isbn">ISBN:</label>
         <input type="text" id="isbn" name="isbn" value="{{ libro.isbn }}" required><br><br>
 
@@ -22,7 +27,7 @@
 
         <button type="submit">Guardar Cambios</button>
     </form>
-
+    <br>
     <a href="{{ url_for('index') }}">Volver a la Lista</a>
 </body>
 </html>
