@@ -322,7 +322,7 @@
 
     <div class="nav-menu">
         <a href="{{ url_for('dashboard') }}" class="active"><i class="fas fa-chart-bar"></i> Dashboard</a>
-        <a href="{{ url_for('index') }}"><i class="fas fa-book"></i> Libros</a>
+        <a href="{{ url_for('listar_libros') }}"><i class="fas fa-book"></i> Libros</a>
         <a href="{{ url_for('listar_clientes') }}"><i class="fas fa-users"></i> Clientes</a>
         <a href="{{ url_for('listar_ventas') }}"><i class="fas fa-shopping-cart"></i> Ventas</a>
         <a href="{{ url_for('logout') }}" style="float: right; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
@@ -395,7 +395,7 @@
         {% endif %}
 
         <div class="quick-actions">
-            <a href="{{ url_for('agregar') }}" class="action-card">
+            <a href="{{ url_for('agregar_libro') }}" class="action-card">
                 <i class="fas fa-plus-circle"></i>
                 <h3>Agregar Libro</h3>
             </a>

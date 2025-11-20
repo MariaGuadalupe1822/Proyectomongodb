@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login Admin - Biblioteca Digital</title>
+    <title>Login Cliente - Biblioteca Digital</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -49,7 +49,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--success), var(--primary));
         }
         
         .logo {
@@ -59,7 +59,7 @@
         
         .logo i {
             font-size: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--success), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
@@ -93,14 +93,14 @@
         }
         
         .form-group input:focus {
-            border-color: var(--primary);
+            border-color: var(--success);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
             background: white;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
             color: white;
             border: none;
             padding: 16px;
@@ -114,12 +114,12 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.4);
         }
         
         .alert {
@@ -142,26 +142,6 @@
             border-color: var(--danger);
         }
         
-        .demo-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .demo-info h3 {
-            color: var(--dark);
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .demo-info p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
         .login-options {
             text-align: center;
             margin-top: 20px;
@@ -170,9 +150,10 @@
         }
         
         .login-options a {
-            color: var(--primary);
+            color: var(--success);
             text-decoration: none;
             font-weight: 500;
+            margin: 0 10px;
         }
         
         .login-options a:hover {
@@ -183,9 +164,9 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <i class="fas fa-book-open"></i>
+            <i class="fas fa-book-reader"></i>
             <h1>Biblioteca Digital</h1>
-            <p style="color: #666; font-size: 14px; margin-top: 5px;">Acceso Administrativo</p>
+            <p style="color: #666; font-size: 14px; margin-top: 5px;">Acceso para Clientes</p>
         </div>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -202,7 +183,7 @@
         <form method="POST">
             <div class="form-group">
                 <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="email" name="email" placeholder="admin@biblioteca.com" required>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" required>
             </div>
             
             <div class="form-group">
@@ -212,18 +193,15 @@
             
             <button type="submit" class="btn-primary">
                 <i class="fas fa-sign-in-alt"></i>
-                Iniciar Sesión como Admin
+                Iniciar Sesión como Cliente
             </button>
         </form>
         
-        <div class="demo-info">
-            <h3><i class="fas fa-info-circle"></i> Credenciales de Administrador</h3>
-            <p><strong>Email:</strong> admin@biblioteca.com</p>
-            <p><strong>Contraseña:</strong> admin123</p>
-        </div>
-        
         <div class="login-options">
-            <p>¿Eres cliente? <a href="{{ url_for('login_cliente') }}">Accede aquí</a></p>
+            <p>
+                <a href="{{ url_for('registro_cliente') }}">Crear cuenta nueva</a> | 
+                <a href="{{ url_for('login') }}">Soy administrador</a>
+            </p>
         </div>
     </div>
 </body>

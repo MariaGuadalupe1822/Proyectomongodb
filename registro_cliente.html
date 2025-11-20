@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login Admin - Biblioteca Digital</title>
+    <title>Registro Cliente - Biblioteca Digital</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -31,25 +31,25 @@
             padding: 20px;
         }
         
-        .login-container {
+        .register-container {
             background: white;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             position: relative;
             overflow: hidden;
         }
         
-        .login-container::before {
+        .register-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--success), var(--primary));
         }
         
         .logo {
@@ -59,7 +59,7 @@
         
         .logo i {
             font-size: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--success), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
@@ -93,14 +93,23 @@
         }
         
         .form-group input:focus {
-            border-color: var(--primary);
+            border-color: var(--success);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
             background: white;
         }
         
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
             color: white;
             border: none;
             padding: 16px;
@@ -114,12 +123,35 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid #e9ecef;
+            padding: 14px;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa;
         }
         
         .alert {
@@ -141,51 +173,14 @@
             color: var(--danger);
             border-color: var(--danger);
         }
-        
-        .demo-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .demo-info h3 {
-            color: var(--dark);
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .demo-info p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .login-options {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .login-options a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .login-options a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="register-container">
         <div class="logo">
-            <i class="fas fa-book-open"></i>
-            <h1>Biblioteca Digital</h1>
-            <p style="color: #666; font-size: 14px; margin-top: 5px;">Acceso Administrativo</p>
+            <i class="fas fa-user-plus"></i>
+            <h1>Registro de Cliente</h1>
+            <p style="color: #666; font-size: 14px; margin-top: 5px;">Crea tu cuenta en Biblioteca Digital</p>
         </div>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -201,8 +196,13 @@
         
         <form method="POST">
             <div class="form-group">
+                <label for="nombre"><i class="fas fa-user"></i> Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez" required>
+            </div>
+            
+            <div class="form-group">
                 <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="email" name="email" placeholder="admin@biblioteca.com" required>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" required>
             </div>
             
             <div class="form-group">
@@ -210,21 +210,38 @@
                 <input type="password" id="password" name="password" placeholder="••••••••" required>
             </div>
             
+            <div class="form-group">
+                <label for="telefono"><i class="fas fa-phone"></i> Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+52 123 456 7890" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="calle"><i class="fas fa-map-marker-alt"></i> Dirección - Calle y Número</label>
+                <input type="text" id="calle" name="calle" placeholder="Calle Principal #123" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ciudad"><i class="fas fa-city"></i> Ciudad</label>
+                    <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codigo_postal"><i class="fas fa-mail-bulk"></i> Código Postal</label>
+                    <input type="text" id="codigo_postal" name="codigo_postal" placeholder="12345" required>
+                </div>
+            </div>
+            
             <button type="submit" class="btn-primary">
-                <i class="fas fa-sign-in-alt"></i>
-                Iniciar Sesión como Admin
+                <i class="fas fa-user-plus"></i>
+                Crear Cuenta
             </button>
+            
+            <a href="{{ url_for('login_cliente') }}" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Login
+            </a>
         </form>
-        
-        <div class="demo-info">
-            <h3><i class="fas fa-info-circle"></i> Credenciales de Administrador</h3>
-            <p><strong>Email:</strong> admin@biblioteca.com</p>
-            <p><strong>Contraseña:</strong> admin123</p>
-        </div>
-        
-        <div class="login-options">
-            <p>¿Eres cliente? <a href="{{ url_for('login_cliente') }}">Accede aquí</a></p>
-        </div>
     </div>
 </body>
 </html>

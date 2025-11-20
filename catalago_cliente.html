@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo - Biblioteca Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+
+        .header .user-profile:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-menu {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-menu a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: var(--success);
+            color: white;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--success), var(--primary));
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            color: var(--success);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid var(--gray-light);
+            border-radius: 50px;
+            font-size: 15px;
+            color: var(--dark);
+            transition: var(--transition);
+            background: var(--light);
+        }
+
+        .search-box input:focus {
+            border-color: var(--success);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+            background: white;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .book-content {
+            padding: 20px;
+        }
+
+        .book-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .book-author {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .book-genre {
+            display: inline-block;
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .book-description {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .book-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .book-stock {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .stock-low {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .stock-medium {
+            color: var(--warning);
+        }
+
+        .stock-high {
+            color: #2ecc71;
+        }
+
+        .buy-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .quantity-input {
+            width: 70px;
+            padding: 8px;
+            border: 2px solid var(--gray-light);
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 201, 240, 0.3);
+        }
+
+        .btn-buy:disabled {
+            background: var(--gray-light);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: var(--gray-light);
+        }
+
+        .empty-state h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .alert-error {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .book-details {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+            
+            .buy-form {
+                flex-direction: column;
+            }
+            
+            .quantity-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('catalogo_cliente') }}" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            Biblioteca Digital
+        </a>
+        <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="User Avatar">
+            <span>{{ session.cliente_nombre }}</span>
+        </div>
+    </div>
+
+    <div class="nav-menu">
+        <a href="{{ url_for('catalogo_cliente') }}" class="active"><i class="fas fa-book"></i> Catálogo</a>
+        <a href="{{ url_for('mis_compras') }}"><i class="fas fa-shopping-bag"></i> Mis Compras</a>
+        <a href="{{ url_for('logout') }}" style="float: right; color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            <i class="fas fa-book"></i>
+            Catálogo de Libros Disponibles
+        </h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="search-box">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" id="searchInput" placeholder="Buscar por título, autor o género...">
+        </div>
+
+        <div class="books-grid" id="booksGrid">
+            {% for libro in libros %}
+            <div class="book-card" data-search="{{ libro.nombre.lower() }} {{ libro.autor.lower() }} {{ libro.genero.lower() }}">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                     alt="{{ libro.nombre }}" class="book-image">
+                
+                <div class="book-content">
+                    <h3 class="book-title">{{ libro.nombre }}</h3>
+                    <p class="book-author">{{ libro.autor }}</p>
+                    <span class="book-genre">{{ libro.genero }}</span>
+                    
+                    {% if libro.descripcion %}
+                    <p class="book-description">{{ libro.descripcion }}</p>
+                    {% endif %}
+                    
+                    <div class="book-details">
+                        <div>
+                            <div class="book-price">${{ "%.2f"|format(libro.precio) }}</div>
+                            <div class="book-stock {% if libro.stock < 5 %}stock-low{% elif libro.stock < 15 %}stock-medium{% else %}stock-high{% endif %}">
+                                {{ libro.stock }} disponibles
+                            </div>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('comprar') }}" class="buy-form">
+                        <input type="hidden" name="libro_id" value="{{ libro._id }}">
+                        <input type="number" name="cantidad" class="quantity-input" value="1" min="1" max="{{ libro.stock }}" 
+                               {% if libro.stock == 0 %}disabled{% endif %}>
+                        <button type="submit" class="btn-buy" {% if libro.stock == 0 %}disabled{% endif %}>
+                            <i class="fas fa-shopping-cart"></i>
+                            {% if libro.stock == 0 %}AGOTADO{% else %}COMPRAR{% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-book"></i>
+                <h3>No hay libros disponibles en este momento</h3>
+                <p>Vuelve más tarde para ver nuestro catálogo actualizado</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Búsqueda en tiempo real
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const bookCards = document.querySelectorAll('.book-card');
+            
+            bookCards.forEach(card => {
+                const searchData = card.getAttribute('data-search');
+                if (searchData.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Validación de cantidad
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', function() {
+                const max = parseInt(this.getAttribute('max'));
+                const value = parseInt(this.value);
+                
+                if (value > max) {
+                    this.value = max;
+                } else if (value < 1) {
+                    this.value = 1;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
