@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Libros (Flask - CRUD)</title>
+</head>
+<body>
+    <h1>Catálogo de Libros</h1>
+    <a href="{{ url_for('agregar') }}">Añadir Nuevo Libro</a>
+    <hr>
+    
+    {% for libro in libros %}
+        <div>
+            <strong>Título:</strong> {{ libro.titulo }} <br>
+            <strong>Autor:</strong> {{ libro.autor }} <br>
+            <strong>ISBN:</strong> {{ libro.isbn }} <br>
+            
+            <a href="{{ url_for('editar', id=libro._id) }}">Editar</a> |
+            
+            <form action="{{ url_for('eliminar', id=libro._id) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('¿Eliminar {{ libro.titulo }}?');">Eliminar</button>
+            </form>
+        </div>
+        <hr>
+    {% else %}
+        <p>¡No hay libros registrados aún! (Base de datos vacía)</p>
+    {% endfor %}
+    </body>
+</html>

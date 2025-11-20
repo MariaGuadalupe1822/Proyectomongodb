@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Libro</title>
+</head>
+<body>
+    <h1>Editar Libro: {{ libro.titulo }}</h1>
+
+    <form method="POST" action="{{ url_for('actualizar', id=libro._id) }}">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" value="{{ libro.titulo }}" required><br><br>
+
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor" value="{{ libro.autor }}" required><br><br>
+
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" value="{{ libro.isbn }}" required><br><br>
+
+        <label for="anio_publicacion">Año de Publicación:</label>
+        <input type="number" id="anio_publicacion" name="anio_publicacion" value="{{ libro.anio_publicacion }}" required><br><br>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Volver a la Lista</a>
+</body>
+</html>
