@@ -10,7 +10,7 @@ app = Flask(__name__)
 try:
     # 1. Conexión al cliente
     client = MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=5000)
-    client.admin.command('ping') # Intenta hacer un ping para verificar la conexión
+    client.admin.command('ping') 
 
     # 2. Selección de DB y Colección
     db = client['libros']           
@@ -20,7 +20,7 @@ try:
 
 except Exception as e:
     print(f"ERROR: No se pudo conectar a MongoDB. Asegúrate de que 'mongod' esté corriendo. Detalle: {e}")
-    # Si la conexión falla, las rutas fallarán, pero la app.py aún intentará iniciar.
+    # Si la conexión falla, las rutas fallarán.
 
 # ----------------- RUTAS CRUD -----------------
 
@@ -33,7 +33,6 @@ def index():
         # Renderiza la plantilla templates/index.html
         return render_template('index.html', libros=libros)
     except Exception as e:
-        # Esto atrapará un error si la conexión a Mongo falló al iniciar.
         print(f"Error en la ruta INDEX: {e}")
         return "<h1>Error al cargar la Base de Datos</h1><p>Verifica que el servidor 'mongod' esté activo.</p>", 500
 
@@ -47,9 +46,12 @@ def agregar():
 @app.route('/crear', methods=['POST'])
 def crear():
     try:
+        # Usamos los nombres de campo de tu colección: nombre, genero, stock, etc.
         libro = {
-            'titulo': request.form.get('titulo'),
+            'nombre': request.form.get('nombre'),         
             'autor': request.form.get('autor'),
+            'genero': request.form.get('genero'),         
+            'stock': request.form.get('stock', type=int), 
             'isbn': request.form.get('isbn'),
             'anio_publicacion': request.form.get('anio_publicacion', type=int) 
         }
@@ -63,7 +65,7 @@ def crear():
 @app.route('/editar/<id>')
 def editar(id):
     try:
-        # Buscar el libro por su ID. ObjectId(id) convierte el string en el formato de MongoDB.
+        # Buscar el libro por su ID.
         libro = coleccion.find_one({'_id': ObjectId(id)})
         
         if libro:
@@ -79,8 +81,10 @@ def editar(id):
 def actualizar(id):
     try:
         datos_actualizados = {
-            'titulo': request.form.get('titulo'),
+            'nombre': request.form.get('nombre'),         
             'autor': request.form.get('autor'),
+            'genero': request.form.get('genero'),
+            'stock': request.form.get('stock', type=int),
             'isbn': request.form.get('isbn'),
             'anio_publicacion': request.form.get('anio_publicacion', type=int)
         }
